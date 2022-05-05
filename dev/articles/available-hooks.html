@@ -36,12 +36,15 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">precommit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.2.9010</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.2.9016</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../articles/precommit.html">Get started</a>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -53,10 +56,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/why-use-hooks.html">Why hooks?</a>
+      <a href="../articles/why-use-hooks.html">Why is this useful?</a>
     </li>
     <li>
-      <a href="../articles/available-hooks.html">Available hooks</a>
+      <a href="../articles/available-hooks.html">Available Hooks</a>
     </li>
     <li>
       <a href="../articles/ci.html">Continuous Integration</a>
@@ -116,7 +119,7 @@
 <p>Arguments for the hooks are specified as described in the <a href="https://pre-commit.com/#passing-arguments-to-hooks" class="external-link">pre-commit.com documentation</a>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> You can specify arguments like this:</p>
 <pre><code>repos:
 -   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.2.2.9010
+    rev: v0.2.2.9016
     hooks:
     -   id: lintr
         args: [--warn-only, --key=value]</code></pre>
@@ -145,6 +148,11 @@
 </ul>
 <pre><code>  id: style-files
   args: [--cache-root=styler]</code></pre>
+<ul>
+<li>Argument <code>ignore-start</code> and <code>ignore-stop</code> is passed to <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> to set <code>styler.ignore_start</code> and <code>styler.ignore_stop</code> respectively. Not set by default, so the {styler} defaults apply. This was introduced in {precommit} 0.2.2.9012. For example, if you want to restore old behavior of styler &lt; 1.6.2, where only the literals <code>styler: off</code> and <code>styler: on</code> were accepted, use this regex:</li>
+</ul>
+<pre><code>  id: style-files
+  args: [--ignore-start="^# styler: on$", --ignore-stop="^# styler: off$"]</code></pre>
 <p>This hook modifies files unless you specify <code>--dry=fail</code> (requires <code>{styler} &gt; 1.3.2</code>).</p>
 </div>
 <div class="section level3">
@@ -169,12 +177,19 @@
 <p>This hook does not modify files.</p>
 </div>
 <div class="section level3">
+<h3 id="no-debug-statement">
+<code>no-debug-statement</code><a class="anchor" aria-label="anchor" href="#no-debug-statement"></a>
+</h3>
+<p>Guarantees you that you don’t accidentally commit code with a <code><a href="https://rdrr.io/r/base/debug.html" class="external-link">debug()</a></code> or <code><a href="https://rdrr.io/r/base/debug.html" class="external-link">debugonce()</a></code> statement in it.</p>
+<p>This hook does not modify files. This hook was added in version 0.2.2.9012.</p>
+</div>
+<div class="section level3">
 <h3 id="spell-check">
 <code>spell-check</code><a class="anchor" aria-label="anchor" href="#spell-check"></a>
 </h3>
 <p>Checks spelling with <code><a href="https://docs.ropensci.org/spelling/reference/spell_check_files.html" class="external-link">spelling::spell_check_files()</a></code>.</p>
 <p><strong>Excluded files</strong></p>
-<p>When you invoke <code><a href="../reference/use_precommit.html">precommit::use_precommit()</a></code> and <code>.pre-commit-config.yaml</code> is written to your repo (unless you specify <code>config_source</code> otherwise), we copy the expression in the <code>exclude:</code> key from spell check hook the default repository’s configuration (i.e. the <code>.pre-commit-hooks.yaml</code> file in <a href="https://github.com/lorenzwalthert/precommit" class="external-link uri">https://github.com/lorenzwalthert/precommit</a>) into your config file, so you can easily add or remove some files. As of v0.2.2.9010, the following regex is used to exclude files following the <a href="https://pre-commit.com/#regular-expressions" class="external-link">verbose python regex syntax</a>:</p>
+<p>When you invoke <code><a href="../reference/use_precommit.html">precommit::use_precommit()</a></code> and <code>.pre-commit-config.yaml</code> is written to your repo (unless you specify <code>config_source</code> otherwise), we copy the expression in the <code>exclude:</code> key from spell check hook the default repository’s configuration (i.e. the <code>.pre-commit-hooks.yaml</code> file in <a href="https://github.com/lorenzwalthert/precommit" class="external-link uri">https://github.com/lorenzwalthert/precommit</a>) into your config file, so you can easily add or remove some files. As of v0.2.2.9016, the following regex is used to exclude files following the <a href="https://pre-commit.com/#regular-expressions" class="external-link">verbose python regex syntax</a>:</p>
 <pre><code>(?x)^(
 .*\.[rR]|
 .*\.feather|
@@ -280,7 +295,7 @@ data/.*|
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
